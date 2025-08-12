@@ -6,7 +6,8 @@ export default function ImgSectionDOM({
   logoRef,
   canvasDivclick,
   inputRef,
-  imgUpload
+  imgUpload,
+  getColor
 }) {
   return(
     <section className=' 
@@ -20,7 +21,11 @@ export default function ImgSectionDOM({
       >
         <img src="src/assets/logo.svg" className={`absolute z-10 animate-spin ${imgLoading ? "block" : "hidden"} w-[20%] `} ref={logoRef}/>
         <p className={`text-blue-500 text-[8cqw] text-center ${imgLoaded ? "hidden" : "block"} `}>Upload or paste(Ctr + V) image.</p>
-        <canvas ref={canvasRef} className={`${imgLoaded ? "cursor-crosshair block" : "hidden"} ${imgLoading && "hidden"}`} ></canvas>
+        <canvas ref={canvasRef} className={`${imgLoaded ? "cursor-crosshair block" : "hidden"} ${imgLoading && "hidden"}`} 
+          onClick={
+            (e)=>getColor(e)
+          }
+        ></canvas>
       </div>
       <input type='file' accept='image/*' className='
         bg-blue-700 rounded-[5px] h-[2.5rem] cursor-pointer p-[0.5rem] text-white w-[min(15rem,90vw)] hover:bg-blue-600 duration-100

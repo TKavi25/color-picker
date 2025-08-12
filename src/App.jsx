@@ -19,6 +19,10 @@ function App() {
 
   const screenAspect = window.innerWidth / window.innerHeight;
 
+  const [pxColor, setPxColor] = useState("#FFFFFF")
+  const [hex8, setHex8] = useState("#FFFFFF")
+  const [RGBA, setRGBA] = useState("rgba(255, 255, 255, 1)")
+
   return(
     <>
       <div className={`bg-[#000000B3] fixed z-50 centered-flex w-screen h-screen ${loading ? "visible pointer-events-auto" : "invisible pointer-events-none"} `}>
@@ -30,8 +34,8 @@ function App() {
       </div>
       <Header />
       <main className='flex flex-col h-[calc(100vh-4rem)] sm800:flex-row'>
-        <ImgSection />
-        <ColorSection />
+        <ImgSection setPxColor={setPxColor} setHex8={setHex8} setRGBA={setRGBA} />
+        <ColorSection pxColor={pxColor} hex8={hex8} RGBA={RGBA} />
       </main>
     </>
   )

@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react"
 import ImgSectionDOM from "./ImgSectionDOM";
 
-export default function ImgSection(){
+export default function ImgSection({setPxColor, setHex8, setRGBA}){
 
   const canvasDivRef = useRef(null);
   const canvasRef = useRef(null);
@@ -12,6 +12,8 @@ export default function ImgSection(){
 
   const logoRef = useRef(null);
   const [imgLoading, setImgLoading] = useState(false)
+
+  const [mouseDown, setMouseDown] = useState(false);
 
   const imgUpload = (file)=>{
     
@@ -92,6 +94,57 @@ export default function ImgSection(){
     }
   }, [])
 
+  const getColor = (e) => {
+    const canvas = canvasRef.current
+    const displayedCanvas = canvas.getBoundingClientRect()
+    const mouseX = e.clientX - displayedCanvas.left
+    const mouseY = e.clientY - displayedCanvas.top
+    const scaleX = canvas.width / displayedCanvas.width
+    const scaleY = canvas.height / displayedCanvas.height
+
+    const canvasPxX = mouseX * scaleX;
+    const canvasPxY = mouseY * scaleY;
+
+    const ctx = canvas.getContext("2d");
+    const pixel = ctx.getImageData(canvasPxX, canvasPxY, 1, 1).data;
+
+    const r = pixel[0];
+    const g = pixel[1];
+    const b = pixel[2];
+    const a = pixel[3]
+
+    const RGBA = `rgba(${r}, ${g}, ${b}, ${(a/255).toFixed(2)})`;
+
+    const toHex = (n) => n.toString(16).padStart(2, "0");
+    const hex8 = `#${toHex(r)}${toHex(g)}${toHex(b)}${toHex(a)}`
+    console.log(hex8)
+    setPxColor(hex8);
+    setHex8(hex8)
+    setRGBA(RGBA)
+
+  }
+
+  useEffect(() => {
+      const canvas = canvasRef.current
+      const handleMouseDown = ()=>{setMouseDown(true)}
+      const handleMouseUp = ()=>{setMouseDown(false)}
+      const handleMouseMove = (e)=>{
+        if(mouseDown) getColor(e);
+      }
+
+      canvas.addEventListener("mousedown", handleMouseDown)
+      canvas.addEventListener("mousemove", handleMouseMove)
+      canvas.addEventListener("mouseup", handleMouseUp)
+
+      return ()=>{
+        canvas.removeEventListener("mousedown", handleMouseDown)
+        canvas.removeEventListener("mousemove", handleMouseMove)
+        canvas.removeEventListener("mouseup", handleMouseUp)
+      }
+      
+    }, [mouseDown, getColor])
+
+
   return(
     <ImgSectionDOM 
       imgLoaded={imgLoaded} 
@@ -102,6 +155,8 @@ export default function ImgSection(){
       canvasDivclick={canvasDivclick} 
       imgUpload={imgUpload}
       inputRef={inputRef}
+      getColor={getColor}
     />
   )
+
 }
