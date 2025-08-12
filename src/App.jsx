@@ -33,7 +33,7 @@ function App() {
          `}/>
       </div>
       <Header />
-      <main className='flex flex-col h-[calc(100vh-4rem)] sm800:flex-row'>
+      <main className='flex flex-col h-[calc(100vh-(6.2*min(5vw,0.6rem)))] sm800:flex-row'>
         <ImgSection setPxColor={setPxColor} setHex8={setHex8} setRGBA={setRGBA} />
         <ColorSection pxColor={pxColor} hex8={hex8} RGBA={RGBA} />
       </main>

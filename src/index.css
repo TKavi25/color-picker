@@ -11,10 +11,13 @@
   --breakpoint-sm500: 500px;
   --breakpoint-sm800: 800px;
   --font-fredokaOne: "Fredoka One", sans-serif;
-  --color-primary-violet: #4F46E5;
-  --color-primary-gray: #111827;
+  --color-primary-blue: #1f2937;
+  --color-primary-gray: #d9d9d9;
+  --color-primary-charcoal: #121212;
 }
 
 body{
   height: 100vh;
+  background-color: #121212;
+  color-scheme: light;
 }
