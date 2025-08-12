@@ -13,7 +13,7 @@ export default function ImgSection({setPxColor, setHex8, setRGBA}){
   const logoRef = useRef(null);
   const [imgLoading, setImgLoading] = useState(false)
 
-  const [mouseDown, setMouseDown] = useState(false);
+  const [pointerDown, setPointerDown] = useState(false);
 
   const imgUpload = (file)=>{
     
@@ -97,13 +97,13 @@ export default function ImgSection({setPxColor, setHex8, setRGBA}){
   const getColor = (e) => {
     const canvas = canvasRef.current
     const displayedCanvas = canvas.getBoundingClientRect()
-    const mouseX = e.clientX - displayedCanvas.left
-    const mouseY = e.clientY - displayedCanvas.top
+    const pointerX = e.clientX - displayedCanvas.left
+    const pointerY = e.clientY - displayedCanvas.top
     const scaleX = canvas.width / displayedCanvas.width
     const scaleY = canvas.height / displayedCanvas.height
 
-    const canvasPxX = mouseX * scaleX;
-    const canvasPxY = mouseY * scaleY;
+    const canvasPxX = pointerX * scaleX;
+    const canvasPxY = pointerY * scaleY;
 
     const ctx = canvas.getContext("2d");
     const pixel = ctx.getImageData(canvasPxX, canvasPxY, 1, 1).data;
@@ -126,23 +126,23 @@ export default function ImgSection({setPxColor, setHex8, setRGBA}){
 
   useEffect(() => {
       const canvas = canvasRef.current
-      const handleMouseDown = ()=>{setMouseDown(true)}
-      const handleMouseUp = ()=>{setMouseDown(false)}
-      const handleMouseMove = (e)=>{
-        if(mouseDown) getColor(e);
+      const handlePointerDown = ()=>{setPointerDown(true)}
+      const handlePointerUp = ()=>{setPointerDown(false)}
+      const handlePointerMove = (e)=>{
+        if(pointerDown) getColor(e);
       }
 
-      canvas.addEventListener("mousedown", handleMouseDown)
-      canvas.addEventListener("mousemove", handleMouseMove)
-      canvas.addEventListener("mouseup", handleMouseUp)
+      canvas.addEventListener("pointerdown", handlePointerDown)
+      canvas.addEventListener("pointermove", handlePointerMove)
+      canvas.addEventListener("pointerup", handlePointerUp)
 
       return ()=>{
-        canvas.removeEventListener("mousedown", handleMouseDown)
-        canvas.removeEventListener("mousemove", handleMouseMove)
-        canvas.removeEventListener("mouseup", handleMouseUp)
+        canvas.removeEventListener("pointerdown", handlePointerDown)
+        canvas.removeEventListener("pointermove", handlePointerMove)
+        canvas.removeEventListener("pointerup", handlePointerUp)
       }
       
-    }, [mouseDown, getColor])
+    }, [pointerDown, getColor])
 
 
   return(

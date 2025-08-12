@@ -21,7 +21,7 @@ export default function ImgSectionDOM({
       >
         <img src="src/assets/logo.svg" className={`absolute z-10 animate-spin ${imgLoading ? "block" : "hidden"} w-[20%] `} ref={logoRef}/>
         <p className={`text-primary-blue text-[8cqw] text-center ${imgLoaded ? "hidden" : "block"} `}>Upload or paste(Ctr + V) image.</p>
-        <canvas ref={canvasRef} className={`${imgLoaded ? "cursor-crosshair block" : "hidden"} ${imgLoading && "hidden"}`} 
+        <canvas ref={canvasRef} className={`${imgLoaded ? "cursor-crosshair block" : "hidden"} ${imgLoading && "hidden"} select-none touch-none`} 
           onClick={
             (e)=>getColor(e)
           }
