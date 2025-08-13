@@ -22,10 +22,10 @@ export default function ImgSectionDOM({
     ' 
       ref={imageSectionRef}
     > 
-      <div className={`bg-primary-blue absolute z-50 rounded-md text-[1.2rem] p-[0.2rem_0.8rem] text-primary-gray shadow-[0px_0.4rem__0.5rem_black] ${pasteMenuPosVisible ? "block" : "hidden"} cursor-pointer hover:bg-primary-blue-hover`} 
+      <button className={`bg-primary-blue absolute z-50 rounded-md text-[1.2rem] p-[0.2rem_0.8rem] text-primary-gray shadow-[0px_0.4rem__0.5rem_black] ${pasteMenuPosVisible ? "visible" : "invisible pointer-events-none"} cursor-pointer hover:bg-primary-blue-hover`} 
         style={{top: pasteMenuPosY + "px", left: pasteMenuPosX + "px"}}
         ref={pasteMenuRef}
-      >Paste Image</div>
+      >Paste Image</button>
       <div className={`
         w-[90vw] h-[60vw]  border-dashed border-3 p-0 border-primary-blue sm500:w-[70%] sm500:h-[46.5vw] sm800:w-[72%] sm800:h-[28.8vw] centered-flex ${imgLoaded ? "cursor-default" : "cursor-pointer" } @container relative
       `}

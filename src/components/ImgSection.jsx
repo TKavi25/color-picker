@@ -106,24 +106,49 @@ export default function ImgSection({setPxColor, setHex8, setRGBA}){
 
   useEffect(()=>{
     const imageSection = imageSectionRef.current
+    const pasteMenu = pasteMenuRef.current
+    const pasteMenuWidth = pasteMenu.clientWidth
+    const pasteMenuHeight = pasteMenu.clientHeight
     const handleRightClick = (e)=>{
-      e.preventDefault()
-      setPasteMenuPos({x: e.pageX, y: e.pageY, visible: true})
+      if((window.innerWidth - e.pageX) >= pasteMenuWidth && (window.innerHeight - e.pageY) >= pasteMenuHeight){
+        e.preventDefault()
+        setPasteMenuPos({x: e.pageX, y: e.pageY, visible: true})
+        console.log(pasteMenuWidth)
+      }else if((window.innerWidth - e.pageX) >= pasteMenuWidth && (window.innerHeight - e.pageY) < pasteMenuHeight){
+        e.preventDefault()
+        setPasteMenuPos({x: e.pageX, y: (e.pageY - pasteMenuHeight), visible: true})
+        console.log(pasteMenuWidth)
+      }else if((window.innerWidth - e.pageX) < pasteMenuWidth && (window.innerHeight - e.pageY) >= pasteMenuHeight){
+        e.preventDefault();
+        setPasteMenuPos({x: (e.pageX - pasteMenuWidth), y: e.pageY, visible: true});
+        console.log(pasteMenuWidth)
+      }else if((window.innerWidth - e.pageX) < pasteMenuWidth && (window.innerHeight - e.pageY) < pasteMenuHeight){
+        e.preventDefault();
+        setPasteMenuPos({x: (e.pageX - pasteMenuWidth), y: (e.pageY - pasteMenuHeight), visible: true});
+        console.log(pasteMenuWidth)
+      }
     }
     
-    const pasteMenu = pasteMenuRef.current
+    
 
     const handleClickPaste = ()=>{
+      setPasteMenuPos(position => ({...position, visible: false}))
+    }
+    const closePasteMenu = ()=>{
       setPasteMenuPos(position => ({...position, visible: false}))
     }
 
     imageSection.addEventListener("contextmenu", handleRightClick)
     pasteMenu.addEventListener("click", handleClickPaste)
+    document.addEventListener("click", closePasteMenu)
+    
 
 
     return()=>{
       imageSection.removeEventListener("contextmenu", handleRightClick)
       pasteMenu.removeEventListener("click", handleClickPaste)
+      document.removeEventListener("click", closePasteMenu)
+      
     }
   }, [pasteMenuPos.visible])
 
