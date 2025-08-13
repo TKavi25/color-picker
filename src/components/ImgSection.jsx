@@ -15,6 +15,12 @@ export default function ImgSection({setPxColor, setHex8, setRGBA}){
 
   const [pointerDown, setPointerDown] = useState(false);
 
+  const imageSectionRef = useRef(null)
+  const [pasteMenuPos, setPasteMenuPos] = useState({x:0, y:0, visible:false});
+
+  const pasteMenuRef = useRef(null);
+  
+
   const imgUpload = (file)=>{
     
     const imgFile = file;
@@ -94,6 +100,35 @@ export default function ImgSection({setPxColor, setHex8, setRGBA}){
     }
   }, [])
 
+  
+  
+
+
+  useEffect(()=>{
+    const imageSection = imageSectionRef.current
+    const handleRightClick = (e)=>{
+      e.preventDefault()
+      setPasteMenuPos({x: e.pageX, y: e.pageY, visible: true})
+    }
+    
+    const pasteMenu = pasteMenuRef.current
+
+    const handleClickPaste = ()=>{
+      setPasteMenuPos(position => ({...position, visible: false}))
+    }
+
+    imageSection.addEventListener("contextmenu", handleRightClick)
+    pasteMenu.addEventListener("click", handleClickPaste)
+
+
+    return()=>{
+      imageSection.removeEventListener("contextmenu", handleRightClick)
+      pasteMenu.removeEventListener("click", handleClickPaste)
+    }
+  }, [pasteMenuPos.visible])
+
+
+
   const getColor = (e) => {
     const canvas = canvasRef.current
     const displayedCanvas = canvas.getBoundingClientRect()
@@ -156,6 +191,11 @@ export default function ImgSection({setPxColor, setHex8, setRGBA}){
       imgUpload={imgUpload}
       inputRef={inputRef}
       getColor={getColor}
+      imageSectionRef={imageSectionRef}
+      pasteMenuPosX={pasteMenuPos.x}
+      pasteMenuPosY={pasteMenuPos.y}
+      pasteMenuPosVisible={pasteMenuPos.visible}
+      pasteMenuRef={pasteMenuRef}
     />
   )
 
