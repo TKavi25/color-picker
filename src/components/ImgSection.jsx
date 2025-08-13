@@ -113,26 +113,37 @@ export default function ImgSection({setPxColor, setHex8, setRGBA}){
       if((window.innerWidth - e.pageX) >= pasteMenuWidth && (window.innerHeight - e.pageY) >= pasteMenuHeight){
         e.preventDefault()
         setPasteMenuPos({x: e.pageX, y: e.pageY, visible: true})
-        console.log(pasteMenuWidth)
       }else if((window.innerWidth - e.pageX) >= pasteMenuWidth && (window.innerHeight - e.pageY) < pasteMenuHeight){
         e.preventDefault()
         setPasteMenuPos({x: e.pageX, y: (e.pageY - pasteMenuHeight), visible: true})
-        console.log(pasteMenuWidth)
       }else if((window.innerWidth - e.pageX) < pasteMenuWidth && (window.innerHeight - e.pageY) >= pasteMenuHeight){
         e.preventDefault();
         setPasteMenuPos({x: (e.pageX - pasteMenuWidth), y: e.pageY, visible: true});
-        console.log(pasteMenuWidth)
       }else if((window.innerWidth - e.pageX) < pasteMenuWidth && (window.innerHeight - e.pageY) < pasteMenuHeight){
         e.preventDefault();
         setPasteMenuPos({x: (e.pageX - pasteMenuWidth), y: (e.pageY - pasteMenuHeight), visible: true});
-        console.log(pasteMenuWidth)
       }
     }
     
     
 
-    const handleClickPaste = ()=>{
-      setPasteMenuPos(position => ({...position, visible: false}))
+    const handleClickPaste = async ()=>{
+      try {
+        const clipboardItems = await navigator.clipboard.read()
+        for (const item of clipboardItems){
+          for (const type of item.types){
+            if(type.startsWith("image/")){
+              const img = await item.getType(type)
+              imgUpload(img)
+            }
+          }
+        }
+        
+      } catch (error) {
+        window.alert("Clipboard read failed", err)
+      }finally {
+        setPasteMenuPos(position => ({...position, visible: false}))
+      }  
     }
     const closePasteMenu = ()=>{
       setPasteMenuPos(position => ({...position, visible: false}))
