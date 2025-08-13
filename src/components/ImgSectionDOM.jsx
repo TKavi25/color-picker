@@ -1,3 +1,5 @@
+import logo from '../assets/logo.svg'
+
 export default function ImgSectionDOM({
   imgLoaded,
   imgLoading,
@@ -19,7 +21,7 @@ export default function ImgSectionDOM({
       ref={canvasDivRef}
       onClick={canvasDivclick}
       >
-        <img src="src/assets/logo.svg" className={`absolute z-10 animate-spin ${imgLoading ? "block" : "hidden"} w-[20%] `} ref={logoRef}/>
+        <img src={logo} className={`absolute z-10 animate-spin ${imgLoading ? "block" : "hidden"} w-[20%] `} ref={logoRef}/>
         <p className={`text-primary-blue text-[8cqw] text-center ${imgLoaded ? "hidden" : "block"} `}>Upload or paste(Ctr + V) image.</p>
         <canvas ref={canvasRef} className={`${imgLoaded ? "cursor-crosshair block" : "hidden"} ${imgLoading && "hidden"} select-none touch-none`} 
           onClick={

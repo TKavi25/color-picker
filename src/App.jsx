@@ -3,6 +3,7 @@ import './App.css'
 import ColorSection from './components/ColorSection'
 import Header from './components/Header'
 import ImgSection from './components/ImgSection'
+import logo from './assets/logo.svg'
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -26,7 +27,7 @@ function App() {
   return(
     <>
       <div className={`bg-[#000000B3] fixed z-50 centered-flex w-screen h-screen ${loading ? "visible pointer-events-auto" : "invisible pointer-events-none"} `}>
-        <img src="src/assets/logo.svg" alt="loading spinner" className={`animate-spin 
+        <img src={logo} alt="loading spinner" className={`animate-spin 
           ${
             screenAspect > 1 ? "w-[20vh] " : "w-[20vw] "
           }
